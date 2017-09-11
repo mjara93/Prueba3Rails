@@ -1,16 +1,20 @@
 class SongsController < ApplicationController
-  before_action :set_song, only: [:show, :edit, :update, :destroy]
+  before_action :set_song, only: %i[show edit update destroy]
+  load_and_authorize_resource
 
   # GET /songs
   # GET /songs.json
   def index
-    @songs = Song.all
+    if params[:genre_id].present?
+      @songs = Song.where("genre_id = ?", params[:genre_id])
+    else
+      @songs = Song.all
+    end
   end
 
   # GET /songs/1
   # GET /songs/1.json
-  def show
-  end
+  def show; end
 
   # GET /songs/new
   def new
@@ -19,8 +23,7 @@ class SongsController < ApplicationController
   end
 
   # GET /songs/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /songs
   # POST /songs.json
@@ -63,13 +66,14 @@ class SongsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_song
-      @song = Song.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def song_params
-      params.require(:song).permit(:name, :duration, :genre_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_song
+    @song = Song.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def song_params
+    params.require(:song).permit(:name, :duration, :genre_id)
+  end
 end
