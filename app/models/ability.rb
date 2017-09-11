@@ -9,10 +9,8 @@ class Ability
          can :manage, :all
        elsif user.basic?
          can [:read, :create], Song
-         can [:update, :destroy], UserSong, user_id: user.id
-         can :add_song, Song
+         can :manage, UserSong, user_id: user.id
          can :read, User
-         can :read, UserSong
          #can :add_song, Playlist
        else
          can :read, Song
