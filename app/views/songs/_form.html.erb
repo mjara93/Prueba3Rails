@@ -23,7 +23,7 @@
 
   <div class="field">
     <%= f.label :genre_id %>
-    <%= f.text_field :genre_id %>
+    <%= f.select :genre_id, options_for_select(@genres.map{ |c| [c.name, c.id] }) %>
   </div>
 
   <div class="actions">
